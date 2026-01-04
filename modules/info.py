@@ -75,10 +75,14 @@ async def info_cmd(client, message, args):
     
     # Формируем сообщение
     text = f"""<blockquote><emoji id=5461117441612462242>🔥</emoji> Forelka Userbot</blockquote>
+
 <blockquote><emoji id=5879770735999717115>👤</emoji> Владелец: {owner_name}</blockquote>
+
 <blockquote><emoji id=5778423822940114949>🌿</emoji> Branch: {branch}</blockquote>
+
 <blockquote><emoji id=5877396173135811032>⚙️</emoji> Prefix: «{prefix}»
 <emoji id=5778550614669660455>⏱</emoji> Uptime: {uptime_str}</blockquote>
+
 <blockquote><emoji id=5936130851635990622>💾</emoji> RAM usage: {ram_usage_str}
 <emoji id=5870982283724328568>🖥</emoji> Host: {hostname}</blockquote>"""
     
