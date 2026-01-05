@@ -127,8 +127,8 @@ async def info_cmd(client, message, args):
     try:
         if quote_media and is_web_url:
             # Режим Quote Media: отправляем с link preview
-            # Используем zero-width joiner для скрытия ссылки
-            text_with_preview = f"{info_text}\n\n<a href=\"{banner_url}\">&#8205;</a>"
+            # Добавляем ссылку В НАЧАЛО текста для превью СВЕРХУ
+            text_with_preview = f"<a href=\"{banner_url}\">&#8205;</a>{info_text}"
             
             await client.send_message(
                 chat_id=message.chat.id,
