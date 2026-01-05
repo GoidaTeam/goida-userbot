@@ -2,8 +2,6 @@ import os
 import json
 import time
 import subprocess
-import requests
-from io import BytesIO
 from pyrogram.enums import ParseMode
 
 try:
@@ -12,8 +10,9 @@ try:
 except:
     HAS_PSUTIL = False
 
-# URL изображения для превью (измените на свою ссылку)
-IMAGE_URL = "https://te.legra.ph/file/b8c6c51c36b3c8e8c8c8c.jpg"
+# URL для превью (используйте Telegraph статью или страницу с og:image)
+# Для правильного превью нужен URL страницы, а не прямой ссылки на изображение
+IMAGE_URL = "https://te.legra.ph/Forelka-Userbot-01-05"
 
 async def info_cmd(client, message, args):
     """Информация о юзерботе"""
@@ -79,7 +78,8 @@ async def info_cmd(client, message, args):
     except:
         hostname = os.uname().nodename if hasattr(os, 'uname') else "Unknown"
     
-    # Формируем текст
+    # Формируем текст с невидимой ссылкой для превью
+    # Добавляем URL в конец через zero-width space для генерации preview
     text = f"""<blockquote><emoji id=5461117441612462242>🔥</emoji> Forelka Userbot</blockquote>
 
 <blockquote><emoji id=5879770735999717115>👤</emoji> Владелец: {owner_name}</blockquote>
@@ -90,38 +90,18 @@ async def info_cmd(client, message, args):
 <emoji id=5778550614669660455>⏱</emoji> Uptime: {uptime_str}</blockquote>
 
 <blockquote><emoji id=5936130851635990622>💾</emoji> RAM usage: {ram_usage_str}
-<emoji id=5870982283724328568>🖥</emoji> Host: {hostname}</blockquote>"""
+<emoji id=5870982283724328568>🖥</emoji> Host: {hostname}</blockquote>
+
+<a href="{IMAGE_URL}">&#8205;</a>"""
     
-    # Удаляем исходное сообщение
+    # Удаляем исходное сообщение и отправляем новое с превью
     await message.delete()
-    
-    # Загружаем изображение и отправляем как фото с текстом в caption
-    try:
-        response = requests.get(IMAGE_URL, timeout=10)
-        if response.status_code == 200:
-            photo = BytesIO(response.content)
-            photo.name = "info.jpg"
-            
-            await client.send_photo(
-                chat_id=message.chat.id,
-                photo=photo,
-                caption=text,
-                parse_mode=ParseMode.HTML
-            )
-        else:
-            # Если изображение не загрузилось, отправляем только текст
-            await client.send_message(
-                chat_id=message.chat.id,
-                text=text,
-                parse_mode=ParseMode.HTML
-            )
-    except Exception as e:
-        # При ошибке отправляем только текст
-        await client.send_message(
-            chat_id=message.chat.id,
-            text=text,
-            parse_mode=ParseMode.HTML
-        )
+    await client.send_message(
+        chat_id=message.chat.id,
+        text=text,
+        parse_mode=ParseMode.HTML,
+        disable_web_page_preview=False
+    )
 
 def register(app, commands, module_name):
     """Регистрация команды"""
