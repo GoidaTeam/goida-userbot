@@ -125,22 +125,9 @@ async def info_cmd(client, message, args):
     await message.delete()
     
     try:
-        if quote_media and is_web_url:
-            # Режим Quote Media: отправляем с link preview
-            # Добавляем ссылку в самом начале на отдельной строке для превью СВЕРХУ
-            text_with_preview = f"<a href=\"{banner_url}\">&#8203;</a>\n{info_text}"
-            
-            await client.send_message(
-                chat_id=message.chat.id,
-                text=text_with_preview,
-                parse_mode=ParseMode.HTML,
-                disable_web_page_preview=False,
-                reply_to_message_id=reply_to,
-                message_thread_id=thread_id
-            )
-        
-        elif is_local_file or (is_web_url and not quote_media):
-            # Режим Image Attachment: отправляем фото с caption
+        if (quote_media or not quote_media) and (is_web_url or is_local_file):
+            # Всегда отправляем как фото (картинка СВЕРХУ гарантированно)
+            # Для веб URL - Pyrogram скачает автоматически
             await client.send_photo(
                 chat_id=message.chat.id,
                 photo=banner_url,
