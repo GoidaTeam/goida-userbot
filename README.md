@@ -73,7 +73,7 @@ python main.py
 
 ▌📝 Лицензия
 
-soon
+LICENSED BY MIT LICENSE
 
 ---
 
