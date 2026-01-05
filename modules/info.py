@@ -2,6 +2,7 @@ import os
 import json
 import time
 import subprocess
+import requests
 from pyrogram.enums import ParseMode
 
 try:
@@ -9,6 +10,26 @@ try:
     HAS_PSUTIL = True
 except:
     HAS_PSUTIL = False
+
+def upload_to_telegraph(image_url):
+    """Загружает изображение на Telegraph и возвращает URL"""
+    try:
+        # Скачиваем изображение
+        response = requests.get(image_url, timeout=10)
+        if response.status_code != 200:
+            return None
+        
+        # Загружаем на Telegraph
+        files = {'file': ('image.jpg', response.content, 'image/jpeg')}
+        upload = requests.post('https://telegra.ph/upload', files=files, timeout=10)
+        
+        if upload.status_code == 200:
+            result = upload.json()
+            if isinstance(result, list) and len(result) > 0:
+                return f"https://telegra.ph{result[0]['src']}"
+    except:
+        pass
+    return None
 
 async def info_cmd(client, message, args):
     """Информация о юзерботе"""
