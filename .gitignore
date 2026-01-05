@@ -181,3 +181,4 @@ forelka.db
 config-*.json
 loaded_modules/
 repositories/
+backups/
