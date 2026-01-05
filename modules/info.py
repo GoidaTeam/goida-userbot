@@ -126,18 +126,31 @@ async def info_cmd(client, message, args):
     
     try:
         if quote_media and is_web_url:
-            # Режим Quote Media: превью сверху
-            # Способ 1: URL на первой строке БЕЗ тегов (обычный текст)
-            text_with_preview = f"{banner_url}\n\n{info_text}"
+            # Режим Quote Media: превью БЕЗ видимой ссылки
+            # Используем невидимую ссылку с пробелом (работает в некоторых клиентах)
+            text_with_preview = f'<a href="{banner_url}">&#8288;</a>\n{info_text}'
             
-            await client.send_message(
-                chat_id=message.chat.id,
-                text=text_with_preview,
-                parse_mode=ParseMode.HTML,
-                disable_web_page_preview=False,
-                reply_to_message_id=reply_to,
-                message_thread_id=thread_id
-            )
+            # Пробуем использовать link_preview_options если доступен
+            try:
+                await client.send_message(
+                    chat_id=message.chat.id,
+                    text=text_with_preview,
+                    parse_mode=ParseMode.HTML,
+                    disable_web_page_preview=False,
+                    reply_to_message_id=reply_to,
+                    message_thread_id=thread_id,
+                    link_preview_options={"is_disabled": False, "prefer_large_media": True, "show_above_text": True}
+                )
+            except:
+                # Fallback без link_preview_options
+                await client.send_message(
+                    chat_id=message.chat.id,
+                    text=text_with_preview,
+                    parse_mode=ParseMode.HTML,
+                    disable_web_page_preview=False,
+                    reply_to_message_id=reply_to,
+                    message_thread_id=thread_id
+                )
         
         elif is_local_file or (is_web_url and not quote_media):
             # Режим фото
