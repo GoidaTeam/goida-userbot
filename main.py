@@ -16,7 +16,7 @@ import loader
 class TerminalLogger:
     def __init__(self):
         self.terminal = sys.stdout
-        self.log = open("forelka.log", "a", encoding="utf-8")
+        self.log = open("goida.log", "a", encoding="utf-8")
         self.ignore_list = [
             "PERSISTENT_TIMESTAMP_OUTDATED",
             "updates.GetChannelDifference",
@@ -69,7 +69,7 @@ async def edited_handler(c, m):
 async def main():
     utils.get_peer_type = lambda x: "channel" if str(x).startswith("-100") else ("chat" if x < 0 else "user")
     
-    sess = next((f for f in os.listdir() if f.startswith("forelka-") and f.endswith(".session")), None)
+    sess = next((f for f in os.listdir() if f.startswith("goida-") and f.endswith(".session")), None)
     if sess: 
         client = Client(sess[:-8])
     else:
@@ -78,8 +78,8 @@ async def main():
         await temp.start()
         me = await temp.get_me()
         await temp.stop()
-        os.rename("temp.session", f"forelka-{me.id}.session")
-        client = Client(f"forelka-{me.id}", api_id=api_id, api_hash=api_hash)
+        os.rename("temp.session", f"goida-{me.id}.session")
+        client = Client(f"goida-{me.id}", api_id=api_id, api_hash=api_hash)
 
     client.commands = {}
     client.loaded_modules = set()
@@ -107,7 +107,7 @@ async def main():
 | || (_) | | |  __/ |   < (_| |
 |_| \___/|_|  \___|_|_|\_\__,_|
 
-Forelka Started | Git: #{git}
+Goida Started | Git: #{git}
 """)
 
     await idle()
