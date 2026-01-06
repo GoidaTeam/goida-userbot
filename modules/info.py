@@ -101,7 +101,7 @@ async def info_cmd(client, message, args):
         hostname = os.uname().nodename if hasattr(os, 'uname') else "Unknown"
     
     # Формируем текст информации
-    info_text = f"""<blockquote><emoji id=5461117441612462242>🔥</emoji> Forelka Userbot</blockquote>
+    info_text = f"""<blockquote><emoji id=5461117441612462242>🔥</emoji> Goida Userbot</blockquote>
 
 <blockquote><emoji id=5879770735999717115>👤</emoji> Владелец: {owner_name}</blockquote>
 
