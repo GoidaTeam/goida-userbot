@@ -18,7 +18,7 @@ async def help_cmd(client, message, args):
             res += f"<emoji id=5877468380125990242>➡️</emoji> <b>{mod}</b> (<code>{cmds_str}</code>)\n"
         return res.strip()
 
-    text = f"<emoji id=5897962422169243693>👻</emoji> <b>Forelka Modules</b>\n\n"
+    text = f"<emoji id=5897962422169243693>👻</emoji> <b>Goida Modules</b>\n\n"
     if sys_mods:
         text += f"<b>System:</b>\n<blockquote expandable>{format_mods(sys_mods)}</blockquote>\n\n"
     if ext_mods:
